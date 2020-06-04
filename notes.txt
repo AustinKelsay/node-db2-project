@@ -1,0 +1,40 @@
+TK notes:
+What is a relational database? It depends on what DBMS you are using!
+
+Relational DBMS examples: sqlite, postgres, mysql, oracle
+
+SQLite:
+    - A lightweight DBMS
+    - Stores the database within a single file
+    - You need to use SQLite studio to display/work with a file ending with .db3
+
+database schemas:
+    - A blueprint of the database
+    - Which tables are present and what columns do they have
+    - Datatypes and constraints on the columns
+
+Every database table needs a "primary key" (this is the id that should be set up to auto increment)
+
+knex migrations
+    - Files representing a change to the database
+    - Assures the schema is consistent across an entire team
+    - Helps prevent bugs on database changes
+    - You can think of it like git commits for your database each of these migrations is a snapshot of some change that has occured.
+
+
+Changes and Rollbacks:
+If later down the road, we realize you need to update your schema, you shouldn’t edit the migration file. Instead, you will want to create a new migration with the command:
+
+knex migrate:make accounts-schema-update
+
+Once we’ve written our updates into this file we save and close with:
+
+knex migrate:latest
+
+If we migrate our database and then quickly realize something isn’t right, we can edit the migration file. However, first, we need to rolllback (or undo) our last migration with:
+
+knex migrate:rollback
+
+Finally, we are free to rerun that file with knex migrate latest.
+
+NOTE: A rollback should not be used to edit an old migration file once that file has accepted into a master branch. However, an entire team may use a rollback to return to a previous version of a database.
